@@ -1,0 +1,5 @@
+spring:
+  grpc:
+    server:
+      port: 9090
+      enable-reflection: true
