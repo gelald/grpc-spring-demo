@@ -6,7 +6,17 @@ option java_multiple_files = true;
 option java_package = "com.github.gelald.grpc";
 
 service HelloService {
+  // Unary: one request, one response
   rpc sayHello (HelloRequest) returns (HelloReply);
+
+  // Server Streaming: one request, multiple responses
+  rpc sayHelloServerStream (HelloRequest) returns (stream HelloReply);
+
+  // Client Streaming: multiple requests, one response
+  rpc sayHelloClientStream (stream HelloRequest) returns (HelloReply);
+
+  // Bidirectional Streaming: both sides stream independently
+  rpc sayHelloBiStream (stream HelloRequest) returns (stream HelloReply);
 }
 
 message HelloRequest {
