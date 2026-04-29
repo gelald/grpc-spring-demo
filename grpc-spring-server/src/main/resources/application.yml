@@ -2,4 +2,11 @@ spring:
   grpc:
     server:
       port: 9090
-      enable-reflection: true
+      # 可以用 grpcurl 列出服务，不需要导入 proto 文件
+      # 通过 reflection 自动发现服务定义
+      reflection:
+        enabled: true
+      # 标准的 gRPC 健康检查服务。客户端可以通过它查询服务端的健康状态，常用于负载均衡器判断实例是否存活
+      # grpcurl -plaintext localhost:9090 grpc.health.v1.Health/Watch
+      health:
+        enabled: true
