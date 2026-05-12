@@ -27,11 +27,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.grpc</groupId>
-            <artifactId>spring-grpc-test</artifactId>
-            <scope>test</scope>
-        </dependency>
         <!-- 引入真实服务实现，避免测试中重写业务逻辑 -->
         <dependency>
             <groupId>com.github.gelald</groupId>
