@@ -32,6 +32,25 @@
             <artifactId>spring-grpc-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- 引入真实服务实现，避免测试中重写业务逻辑 -->
+        <dependency>
+            <groupId>com.github.gelald</groupId>
+            <artifactId>grpc-spring-server</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- 进程内 gRPC 通道，不走网络栈，用于客户端测试 -->
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-inprocess</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- GrpcCleanupRule，自动管理测试中的 server/channel 生命周期 -->
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-testing</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

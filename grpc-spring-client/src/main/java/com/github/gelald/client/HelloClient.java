@@ -4,6 +4,7 @@ import com.github.gelald.grpc.HelloReply;
 import com.github.gelald.grpc.HelloRequest;
 import com.github.gelald.grpc.HelloServiceGrpc;
 import io.grpc.stub.StreamObserver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.grpc.client.GrpcChannelFactory;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +17,18 @@ public class HelloClient {
     private final HelloServiceGrpc.HelloServiceBlockingStub blockingStub;
     private final HelloServiceGrpc.HelloServiceStub asyncStub;
 
+    @Autowired
     public HelloClient(GrpcChannelFactory channels) {
         var channel = channels.createChannel("hello-service");
         this.blockingStub = HelloServiceGrpc.newBlockingStub(channel);
         this.asyncStub = HelloServiceGrpc.newStub(channel);
+    }
+
+    // 直接注入 stub，用于测试（不经过 GrpcChannelFactory）
+    public HelloClient(HelloServiceGrpc.HelloServiceBlockingStub blockingStub,
+                       HelloServiceGrpc.HelloServiceStub asyncStub) {
+        this.blockingStub = blockingStub;
+        this.asyncStub = asyncStub;
     }
 
     public void sayHello(String name) {
