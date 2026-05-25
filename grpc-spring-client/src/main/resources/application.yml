@@ -2,5 +2,5 @@ spring:
   grpc:
     client:
       channels:
-        hello-service:
+        grpc-demo-server:
           address: static://localhost:9090

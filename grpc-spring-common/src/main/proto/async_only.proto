@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package com.github.gelald.grpc;
+
+option java_multiple_files = true;
+option java_package = "com.github.gelald.grpc";
+
+service AsyncOnlyService {
+  // 只有 Client Streaming RPC —— 只能使用 AsyncStub，BlockingStub 无法处理
+  rpc sayAsyncHelloClientStream (stream AsyncHelloRequest) returns (AsyncHelloReply);
+}
+
+message AsyncHelloRequest {
+  string name = 1;
+}
+
+message AsyncHelloReply {
+  string message = 1;
+}

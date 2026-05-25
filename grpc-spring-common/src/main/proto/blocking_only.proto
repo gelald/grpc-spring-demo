@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package com.github.gelald.grpc;
+
+option java_multiple_files = true;
+option java_package = "com.github.gelald.grpc";
+
+service BlockingOnlyService {
+  // 只有 Unary RPC —— 天然适配 BlockingStub，无需 AsyncStub
+  rpc sayBlockingHello (BlockingHelloRequest) returns (BlockingHelloReply);
+}
+
+message BlockingHelloRequest {
+  string name = 1;
+}
+
+message BlockingHelloReply {
+  string message = 1;
+}

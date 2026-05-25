@@ -4,8 +4,6 @@ import com.github.gelald.grpc.HelloReply;
 import com.github.gelald.grpc.HelloRequest;
 import com.github.gelald.grpc.HelloServiceGrpc;
 import io.grpc.stub.StreamObserver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.grpc.client.GrpcChannelFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CountDownLatch;
@@ -17,14 +15,17 @@ public class HelloClient {
     private final HelloServiceGrpc.HelloServiceBlockingStub blockingStub;
     private final HelloServiceGrpc.HelloServiceStub asyncStub;
 
-    @Autowired
-    public HelloClient(GrpcChannelFactory channels) {
-        var channel = channels.createChannel("hello-service");
-        this.blockingStub = HelloServiceGrpc.newBlockingStub(channel);
-        this.asyncStub = HelloServiceGrpc.newStub(channel);
-    }
+    // ==================== 原手工注入方式（已注释，供对比） ====================
+    // @Autowired
+    // public HelloClient(GrpcChannelFactory channels) {
+    //     var channel = channels.createChannel("hello-service");
+    //     this.blockingStub = HelloServiceGrpc.newBlockingStub(channel);
+    //     this.asyncStub = HelloServiceGrpc.newStub(channel);
+    // }
+    // =====================================================================
 
-    // 直接注入 stub，用于测试（不经过 GrpcChannelFactory）
+    // 新方式：直接注入由 @ImportGrpcClients 自动创建的 stub Bean
+    // 同时兼容测试：测试中直接传入 stub 实例，走同一构造器
     public HelloClient(HelloServiceGrpc.HelloServiceBlockingStub blockingStub,
                        HelloServiceGrpc.HelloServiceStub asyncStub) {
         this.blockingStub = blockingStub;
