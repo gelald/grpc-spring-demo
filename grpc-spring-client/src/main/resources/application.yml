@@ -1,6 +1,26 @@
 spring:
   grpc:
     client:
+      # 全局配置，适配所有 channel
+      # default-channel:
+        # 开启全局负载均衡，channel 地址必须 dns:/// 开头
+        # default-load-balancing-policy: round_robin
+        # 配合 round_robin 做健康检查剔除异常节点
+        # health:
+          # enabled: true
       channels:
         grpc-demo-server:
+          # client 默认的负载均衡算法是 pick_first
+          # 从 DNS 中解析出多个 IP 后，只连接第一个可用地址，并保持连接
           address: static://localhost:9090
+
+          # round_robin 简单写法，让 gRPC 解析出多个地址
+          # address: dns:///localhost:9090
+          # 默认负载均衡算法是 round_robin
+          # default-load-balancing-policy: round_robin
+
+          # 支持运行时更新配置写法
+          # address: dns:///localhost:9090
+          # service-config:
+            # loadBalancingConfig:
+              # - round_robin: {}
