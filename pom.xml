@@ -12,6 +12,7 @@
         <module>grpc-spring-common</module>
         <module>grpc-spring-server</module>
         <module>grpc-spring-client</module>
+        <module>downstream-grpc-server</module>
     </modules>
 
     <properties>

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package com.github.gelald.grpc;
+
+option java_multiple_files = true;
+option java_package = "com.github.gelald.grpc";
+
+// 用于验证 gRPC Deadline 传播机制的服务
+service DeadlineService {
+  // 模拟耗时处理，验证 deadline 到期后整条链路自动中断
+  rpc slowProcess (SlowProcessRequest) returns (SlowProcessResponse);
+}
+
+message SlowProcessRequest {
+  string name = 1;
+  int32 processing_time_ms = 2;
+}
+
+message SlowProcessResponse {
+  string message = 1;
+  // 该节点收到的剩余 deadline（毫秒），用于验证 deadline 自动传播
+  int64 remaining_deadline_ms = 2;
+}
