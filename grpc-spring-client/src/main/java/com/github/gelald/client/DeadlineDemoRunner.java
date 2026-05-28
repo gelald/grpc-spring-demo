@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
-@Component
+//@Component
 @Order(2)
 public class DeadlineDemoRunner implements CommandLineRunner {
 

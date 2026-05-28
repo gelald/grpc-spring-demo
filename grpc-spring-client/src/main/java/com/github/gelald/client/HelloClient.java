@@ -4,11 +4,13 @@ import com.github.gelald.grpc.HelloReply;
 import com.github.gelald.grpc.HelloRequest;
 import com.github.gelald.grpc.HelloServiceGrpc;
 import io.grpc.stub.StreamObserver;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Component
 public class HelloClient {
 
@@ -36,6 +38,7 @@ public class HelloClient {
         HelloRequest request = HelloRequest.newBuilder().setName(name).build();
         HelloReply reply = blockingStub.sayHello(request);
         System.out.println("  -> " + reply.getMessage());
+        log.info("sayHello 完结");
     }
 
     public void sayHelloServerStream(String name) {
@@ -44,6 +47,7 @@ public class HelloClient {
         while (it.hasNext()) {
             HelloReply reply = it.next();
             System.out.println("  -> " + reply.getMessage());
+            log.info("sayHelloServerStream 返回");
         }
     }
 
@@ -64,6 +68,7 @@ public class HelloClient {
 
             @Override
             public void onCompleted() {
+                log.info("sayHelloClientStream 完结");
                 latch.countDown();
             }
         });
@@ -96,6 +101,7 @@ public class HelloClient {
             @Override
             public void onCompleted() {
                 System.out.println("  -> Server done.");
+                log.info("sayHelloBiStream 完结");
                 latch.countDown();
             }
         });
